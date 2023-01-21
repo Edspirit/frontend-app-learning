@@ -1,12 +1,13 @@
-import React from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { getConfig } from '@edx/frontend-platform';
 import { injectIntl, intlShape, FormattedMessage } from '@edx/frontend-platform/i18n';
-import { getLoginRedirectUrl } from '@edx/frontend-platform/auth';
+import { getAuthenticatedHttpClient, getLoginRedirectUrl } from '@edx/frontend-platform/auth';
 import { Alert, Button, Hyperlink } from '@edx/paragon';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 
+import { AppContext } from '@edx/frontend-platform/react';
 import enrollmentMessages from '../../../../alerts/enrollment-alert/messages';
 import genericMessages from '../../../../generic/messages';
 import messages from './messages';
@@ -26,11 +27,30 @@ function PrivateCourseAlert({ intl, payload }) {
     title,
   } = useModel('courseHomeMeta', courseId);
 
+  const { authenticatedUser } = useContext(AppContext);
+  const [userData, setUserData] = useState();
+
   const { enrollClickHandler, loading } = useEnrollClickHandler(
     courseId,
     org,
     intl.formatMessage(enrollmentMessages.success),
   );
+
+  async function fetchUserData() {
+    try {
+      const { data } = await getAuthenticatedHttpClient().get(
+        `${getConfig().LMS_BASE_URL}/api/user/v1/accounts/${
+          authenticatedUser.username
+        }`,
+      );
+      setUserData(data);
+    } catch (e) {
+      console.error(e);
+    }
+  }
+  useEffect(() => {
+    fetchUserData();
+  }, []);
 
   const enrollNowButton = (
     <Button
@@ -86,9 +106,15 @@ function PrivateCourseAlert({ intl, payload }) {
           <p className="font-weight-bold">{intl.formatMessage(outlineMessages.welcomeTo)} {title}</p>
           {canEnroll && (
             <div className="d-flex">
-              {enrollNowButton}
-              {intl.formatMessage(messages.toAccess)}
-              {loading && <FontAwesomeIcon icon={faSpinner} spin />}
+              {!userData?.is_active ? (
+                intl.formatMessage(enrollmentMessages.deActive)
+              ) : (
+                <>
+                  {enrollNowButton}
+                  {intl.formatMessage(messages.toAccess)}
+                  {loading && <FontAwesomeIcon icon={faSpinner} spin />}
+                </>
+              )}
             </div>
           )}
           {!canEnroll && (
