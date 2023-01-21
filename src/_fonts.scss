@@ -1,0 +1,162 @@
+@font-face {
+  font-family: "IRANSans";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 200;
+  src: local("IRANSans UltraLight"),
+    url("../public/fonts/IRANSans/woff2/IRANSansWeb_UltraLight.woff2")
+      format("woff2"),
+    url("../public/fonts/IRANSans/woff/IRANSansWeb_UltraLight.woff")
+      format("woff"),
+    url("../public/fonts/IRANSans/ttf/IRANSansWeb_UltraLight.ttf")
+      format("truetype");
+}
+
+@font-face {
+  font-family: "IRANSans";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 300;
+  src: local("IRANSans Light"),
+    url("../public/fonts/IRANSans/woff2/IRANSansWeb_Light.woff2")
+      format("woff2"),
+    url("../public/fonts/IRANSans/woff/IRANSansWeb_Light.woff") format("woff"),
+    url("../public/fonts/IRANSans/ttf/IRANSansWeb_Light.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "IRANSans";
+  font-style: normal;
+  font-display: swap;
+  font-weight: normal;
+  src: local("IRANSans Regular"),
+    url("../public/fonts/IRANSans/woff2/IRANSansWeb.woff2") format("woff2"),
+    url("../public/fonts/IRANSans/woff/IRANSansWeb.woff") format("woff"),
+    url("../public/fonts/IRANSans/ttf/IRANSansWeb.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "IRANSans";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 500;
+  src: local("IRANSans Medium"),
+    url("../public/fonts/IRANSans/woff2/IRANSansWeb_Medium.woff2")
+      format("woff2"),
+    url("../public/fonts/IRANSans/woff/IRANSansWeb_Medium.woff") format("woff"),
+    url("../public/fonts/IRANSans/ttf/IRANSansWeb_Medium.ttf")
+      format("truetype");
+}
+
+@font-face {
+  font-family: "IRANSans";
+  font-style: normal;
+  font-display: swap;
+  font-weight: bold;
+  src: local("IRANSans Bold"),
+    url("../public/fonts/IRANSans/woff2/IRANSansWeb_Bold.woff2") format("woff2"),
+    url("../public/fonts/IRANSans/woff/IRANSansWeb_Bold.woff") format("woff"),
+    url("../public/fonts/IRANSans/ttf/IRANSansWeb_Bold.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "IRANSans";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 900;
+  src: local("IRANSans Black"),
+    url("../public/fonts/IRANSans/woff2/IRANSansWeb_Black.woff2")
+      format("woff2"),
+    url("../public/fonts/IRANSans/woff/IRANSansWeb_Black.woff") format("woff"),
+    url("../public/fonts/IRANSans/ttf/IRANSansWeb_Black.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: NotoSansArabic;
+  font-style: normal;
+  font-display: swap;
+  font-weight: 100;
+  src: local("Noto Sans Arabic Thin"),
+    url("../public/fonts/NotoSansArabic/NotoSansArabic-Thin.ttf")
+      format("truetype");
+}
+
+@font-face {
+  font-family: NotoSansArabic;
+  font-style: normal;
+  font-display: swap;
+  font-weight: 200;
+  src: local("Noto Sans Arabic ExtraLight"),
+    url("../public/fonts/NotoSansArabic/NotoSansArabic-ExtraLight.ttf")
+      format("truetype");
+}
+
+@font-face {
+  font-family: NotoSansArabic;
+  font-style: normal;
+  font-display: swap;
+  font-weight: 300;
+  src: local("Noto Sans Arabic Light"),
+    url("../public/fonts/NotoSansArabic/NotoSansArabic-Light.ttf")
+      format("truetype");
+}
+
+@font-face {
+  font-family: NotoSansArabic;
+  font-style: normal;
+  font-display: swap;
+  font-weight: 400;
+  src: local("Noto Sans Arabic Regular"),
+    url("../public/fonts/NotoSansArabic/NotoSansArabic-Regular.ttf")
+      format("truetype");
+}
+
+@font-face {
+  font-family: NotoSansArabic;
+  font-style: normal;
+  font-display: swap;
+  font-weight: normal;
+  src: local("Noto Sans Arabic Medium"),
+    url("../public/fonts/NotoSansArabic/NotoSansArabic-Medium.ttf")
+      format("truetype");
+}
+
+@font-face {
+  font-family: NotoSansArabic;
+  font-style: normal;
+  font-display: swap;
+  font-weight: 600;
+  src: local("Noto Sans Arabic SemiBold"),
+    url("../public/fonts/NotoSansArabic/NotoSansArabic-SemiBold.ttf")
+      format("truetype");
+}
+
+@font-face {
+  font-family: NotoSansArabic;
+  font-style: normal;
+  font-display: swap;
+  font-weight: 700;
+  src: local("Noto Sans Arabic Bold"),
+    url("../public/fonts/NotoSansArabic/NotoSansArabic-Bold.ttf")
+      format("truetype");
+}
+
+@font-face {
+  font-family: NotoSansArabic;
+  font-style: normal;
+  font-display: swap;
+  font-weight: 800;
+  src: local("Noto Sans Arabic ExtraBold"),
+    url("../public/fonts/NotoSansArabic/NotoSansArabic-ExtraBold.ttf")
+      format("truetype");
+}
+
+@font-face {
+  font-family: NotoSansArabic;
+  font-style: normal;
+  font-display: swap;
+  font-weight: 900;
+  src: local("Noto Sans Arabic Black"),
+    url("../public/fonts/NotoSansArabic/NotoSansArabic-Black.ttf")
+      format("truetype");
+}

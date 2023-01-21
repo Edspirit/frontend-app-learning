@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { getConfig } from '@edx/frontend-platform';
 import PropTypes from 'prop-types';
+import { getLocale } from '@edx/frontend-platform/i18n';
 import { getNotices } from './api';
 /**
  * This component uses the platform-plugin-notices plugin to function.
@@ -20,7 +21,19 @@ const NoticesProvider = ({ children }) => {
       }
     }
   }, []);
-
+  const setFont = () => {
+    const body = document.querySelector('body');
+    if (getLocale() === 'fa') {
+      body.className = 'lang_fa';
+    } else if (getLocale() === 'ar') {
+      body.className = 'lang_ar';
+    } else {
+      body.removeAttribute('class');
+    }
+  };
+  useEffect(() => {
+    setFont();
+  }, [getLocale()]);
   return (
     <div>
       {isRedirected === true ? null : children}

@@ -4,6 +4,18 @@
 @import "~@edx/brand/paragon/overrides";
 
 @import "~@edx/frontend-component-footer/dist/footer";
+@import "~@edx/frontend-component-header/dist/index";
+
+.lang_fa {
+  * {
+    font-family: IRANSans, FontAwesome !important ;
+  }
+}
+.lang_ar {
+  * {
+    font-family: "Noto Sans Arabic", FontAwesome !important ;
+  }
+}
 
 #root {
   display: flex;
