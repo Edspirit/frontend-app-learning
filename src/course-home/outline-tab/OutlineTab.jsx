@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { sendTrackEvent } from '@edx/frontend-platform/analytics';
 import { getAuthenticatedUser } from '@edx/frontend-platform/auth';
 import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
 
 import { Button } from '@edx/paragon';
+import { AppContext } from '@edx/frontend-platform/react';
 import { AlertList } from '../../generic/user-messages';
 
 import CourseDates from './widgets/CourseDates';
@@ -95,7 +96,26 @@ function OutlineTab({ intl }) {
       pageName: 'course_home',
     });
   };
+  const [data, setData] = useState();
+  const { config } = useContext(AppContext);
+  console.log('data', data, data?.footer_nav_links);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(
+          `${config.LMS_BASE_URL}${config.AC_INSTANCE_CONFIG_API_URL}`,
+        );
+        const result = await response.json();
+        setData(JSON.parse(result));
+      } catch (error) {
+        console.log(error);
+      }
+    };
 
+    if (config.AC_INSTANCE_CONFIG_API_URL && config.LMS_BASE_URL) {
+      fetchData();
+    }
+  }, [config.AC_INSTANCE_CONFIG_API_URL, config.LMS_BASE_URL]);
   const isEnterpriseUser = () => {
     const authenticatedUser = getAuthenticatedUser();
     const userRoleNames = authenticatedUser ? authenticatedUser.roles.map(role => role.split(':')[0]) : [];
