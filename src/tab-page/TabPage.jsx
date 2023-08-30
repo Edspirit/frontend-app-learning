@@ -82,7 +82,7 @@ function TabPage({ intl, ...props }) {
   return (
     <>
       <Header />
-      <p className="text-center py-5 mx-auto" style={{ maxWidth: '30em' }}>
+      <p className="text-center py-5 mx-auto d-flex flex-column flex-grow-1" style={{ maxWidth: '30em' }}>
         {intl.formatMessage(messages.failure)}
       </p>
       <Footer />
