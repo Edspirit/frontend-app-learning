@@ -6,7 +6,7 @@ import { Navigate } from 'react-router-dom';
 
 import Footer from '@edx/frontend-component-footer';
 import { Toast } from '@edx/paragon';
-import { LearningHeader as Header } from '@edx/frontend-component-header';
+import Header from '@edx/frontend-component-header';
 import PageLoading from '../generic/PageLoading';
 import { getAccessDeniedRedirectUrl } from '../shared/access';
 import { useModel } from '../generic/model-store';
@@ -32,10 +32,7 @@ const TabPage = ({ intl, ...props }) => {
   const dispatch = useDispatch();
   const {
     courseAccess,
-    number,
-    org,
     start,
-    title,
   } = useModel('courseHomeMeta', courseId);
 
   if (courseStatus === 'denied') {
@@ -64,7 +61,7 @@ const TabPage = ({ intl, ...props }) => {
         </>
       )}
 
-      <Header courseOrg={org} courseNumber={number} courseTitle={title} />
+      <Header />
 
       {courseStatus === 'loading' && (
         <PageLoading srMessage={intl.formatMessage(messages.loading)} />
