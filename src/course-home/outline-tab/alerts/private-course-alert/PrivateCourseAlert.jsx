@@ -14,6 +14,8 @@ import outlineMessages from '../../messages';
 import useEnrollClickHandler from '../../../../alerts/enrollment-alert/clickHook';
 import { useModel } from '../../../../generic/model-store';
 
+import useUserData from '../../../../alerts/enrollment-alert/useUserData';
+
 const PrivateCourseAlert = ({ intl, payload }) => {
   const {
     anonymousUser,
@@ -31,6 +33,7 @@ const PrivateCourseAlert = ({ intl, payload }) => {
     org,
     intl.formatMessage(enrollmentMessages.success),
   );
+  const { userData } = useUserData();
 
   const enrollNowButton = (
     <Button
@@ -84,17 +87,18 @@ const PrivateCourseAlert = ({ intl, payload }) => {
       {!anonymousUser && (
         <>
           <p className="font-weight-bold">{intl.formatMessage(outlineMessages.welcomeTo)} {title}</p>
-          {canEnroll && (
+          {canEnroll ? (
             <div className="d-flex">
-              {enrollNowButton}
-              {intl.formatMessage(messages.toAccess)}
-              {loading && <FontAwesomeIcon icon={faSpinner} spin />}
+              {userData?.is_active ? (
+                <>
+                  {enrollNowButton}
+                  {intl.formatMessage(messages.toAccess)}
+                  {loading && <FontAwesomeIcon icon={faSpinner} spin />}
+                </>
+              ) : intl.formatMessage(enrollmentMessages.deActive)}
             </div>
-          )}
-          {!canEnroll && (
-            <>
-              {intl.formatMessage(enrollmentMessages.alert)}
-            </>
+          ) : (
+            <>{intl.formatMessage(enrollmentMessages.alert)}</>
           )}
         </>
       )}
