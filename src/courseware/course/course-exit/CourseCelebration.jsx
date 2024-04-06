@@ -33,6 +33,7 @@ import SocialIcons from '../../social-share/SocialIcons';
 import { logClick, logVisit } from './utils';
 import { DashboardLink, IdVerificationSupportLink, ProfileLink } from '../../../shared/links';
 import CourseRecommendations from './CourseRecommendations';
+import useGetConfig from '../../../hooks/useGetConfig';
 
 const LINKEDIN_BLUE = '#2867B2';
 
@@ -66,6 +67,10 @@ const CourseCelebration = ({ intl }) => {
   } = certificateData || {};
 
   const { administrator } = getAuthenticatedUser();
+
+  const {
+    platformName,
+  } = useGetConfig();
 
   const dashboardLink = <DashboardLink />;
   const idVerificationSupportLink = <IdVerificationSupportLink />;
@@ -278,7 +283,7 @@ const CourseCelebration = ({ intl }) => {
   return (
     <>
       <Helmet>
-        <title>{`${intl.formatMessage(messages.congratulationsHeader)} | ${title} | ${getConfig().SITE_NAME}`}</title>
+        <title>{`${intl.formatMessage(messages.congratulationsHeader)} | ${title} | ${platformName || getConfig().siteName}`}</title>
       </Helmet>
       <div className="row w-100 mx-0 mb-4 px-5 py-4 border border-light">
         <div className="col-12 p-0 h2 text-center">
