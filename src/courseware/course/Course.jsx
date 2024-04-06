@@ -19,6 +19,8 @@ import CourseBreadcrumbs from './CourseBreadcrumbs';
 import ContentTools from './content-tools';
 import Sequence from './sequence';
 
+import useGetConfig from '../../hooks/useGetConfig';
+
 const Course = ({
   courseId,
   sequenceId,
@@ -48,6 +50,10 @@ const Course = ({
   // Below the tabs, above the breadcrumbs alerts (appearing in the order listed here)
   const dispatch = useDispatch();
 
+  const {
+    platformName,
+  } = useGetConfig();
+
   const [firstSectionCelebrationOpen, setFirstSectionCelebrationOpen] = useState(false);
   // If streakLengthToCelebrate is populated, that modal takes precedence. Wait til the next load to display
   // the weekly goal celebration modal.
@@ -73,7 +79,7 @@ const Course = ({
   return (
     <SidebarProviderComponent courseId={courseId} unitId={unitId}>
       <Helmet>
-        <title>{`${pageTitleBreadCrumbs.join(' | ')} | ${getConfig().SITE_NAME}`}</title>
+        <title>{`${pageTitleBreadCrumbs.join(' | ')} | ${platformName || getConfig().siteName}`}</title>
       </Helmet>
       <div className="position-relative d-flex align-items-xl-center mb-4 mt-1 flex-column flex-xl-row">
         {navigationDisabled || (

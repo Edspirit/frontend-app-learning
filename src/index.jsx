@@ -12,6 +12,7 @@ import ReactDOM from 'react-dom';
 import { Routes, Route } from 'react-router-dom';
 
 import { Helmet } from 'react-helmet';
+import { QueryClient, QueryClientProvider } from 'react-query';
 import { fetchDiscussionTab, fetchLiveTab } from './course-home/data/thunks';
 import DiscussionTab from './course-home/discussion-tab/DiscussionTab';
 
@@ -27,7 +28,7 @@ import DatesTab from './course-home/dates-tab';
 import GoalUnsubscribe from './course-home/goal-unsubscribe';
 import ProgressTab from './course-home/progress-tab/ProgressTab';
 import { TabContainer } from './tab-page';
-
+import REACT_QUERY_CONSTANTS from './constants/react-query-constants';
 import { fetchDatesTab, fetchOutlineTab, fetchProgressTab } from './course-home/data';
 import { fetchCourse } from './courseware/data';
 import initializeStore from './store';
@@ -39,104 +40,111 @@ import DecodePageRoute from './decode-page-route';
 import { DECODE_ROUTES, ROUTES } from './constants';
 
 subscribe(APP_READY, () => {
+  const queryClient = new QueryClient({
+    defaultOptions: {
+      ...REACT_QUERY_CONSTANTS,
+    },
+  });
   ReactDOM.render(
     <AppProvider store={initializeStore()}>
-      <Helmet>
-        <link rel="shortcut icon" href={getConfig().FAVICON_URL} type="image/x-icon" />
-      </Helmet>
-      <PathFixesProvider>
-        <NoticesProvider>
-          <UserMessagesProvider>
-            <Routes>
-              <Route path={ROUTES.UNSUBSCRIBE} element={<PageWrap><GoalUnsubscribe /></PageWrap>} />
-              <Route path={ROUTES.REDIRECT} element={<PageWrap><CoursewareRedirectLandingPage /></PageWrap>} />
-              <Route
-                path={DECODE_ROUTES.ACCESS_DENIED}
-                element={<DecodePageRoute><CourseAccessErrorPage /></DecodePageRoute>}
-              />
-              <Route
-                path={DECODE_ROUTES.HOME}
-                element={(
-                  <DecodePageRoute>
-                    <TabContainer tab="outline" fetch={fetchOutlineTab} slice="courseHome">
-                      <OutlineTab />
-                    </TabContainer>
-                  </DecodePageRoute>
-              )}
-              />
-              <Route
-                path={DECODE_ROUTES.LIVE}
-                element={(
-                  <DecodePageRoute>
-                    <TabContainer tab="lti_live" fetch={fetchLiveTab} slice="courseHome">
-                      <LiveTab />
-                    </TabContainer>
-                  </DecodePageRoute>
-                )}
-              />
-              <Route
-                path={DECODE_ROUTES.DATES}
-                element={(
-                  <DecodePageRoute>
-                    <TabContainer tab="dates" fetch={fetchDatesTab} slice="courseHome">
-                      <DatesTab />
-                    </TabContainer>
-                  </DecodePageRoute>
-                )}
-              />
-              <Route
-                path={DECODE_ROUTES.DISCUSSION}
-                element={(
-                  <DecodePageRoute>
-                    <TabContainer tab="discussion" fetch={fetchDiscussionTab} slice="courseHome">
-                      <DiscussionTab />
-                    </TabContainer>
-                  </DecodePageRoute>
-                )}
-              />
-              {DECODE_ROUTES.PROGRESS.map((route) => (
+      <QueryClientProvider client={queryClient}>
+        <Helmet>
+          <link rel="shortcut icon" href={getConfig().FAVICON_URL} type="image/x-icon" />
+        </Helmet>
+        <PathFixesProvider>
+          <NoticesProvider>
+            <UserMessagesProvider>
+              <Routes>
+                <Route path={ROUTES.UNSUBSCRIBE} element={<PageWrap><GoalUnsubscribe /></PageWrap>} />
+                <Route path={ROUTES.REDIRECT} element={<PageWrap><CoursewareRedirectLandingPage /></PageWrap>} />
                 <Route
-                  key={route}
-                  path={route}
+                  path={DECODE_ROUTES.ACCESS_DENIED}
+                  element={<DecodePageRoute><CourseAccessErrorPage /></DecodePageRoute>}
+                />
+                <Route
+                  path={DECODE_ROUTES.HOME}
                   element={(
                     <DecodePageRoute>
-                      <TabContainer
-                        tab="progress"
-                        fetch={fetchProgressTab}
-                        slice="courseHome"
-                        isProgressTab
-                      >
-                        <ProgressTab />
+                      <TabContainer tab="outline" fetch={fetchOutlineTab} slice="courseHome">
+                        <OutlineTab />
                       </TabContainer>
                     </DecodePageRoute>
-                  )}
+              )}
                 />
-              ))}
-              <Route
-                path={DECODE_ROUTES.COURSE_END}
-                element={(
-                  <DecodePageRoute>
-                    <TabContainer tab="courseware" fetch={fetchCourse} slice="courseware">
-                      <CourseExit />
-                    </TabContainer>
-                  </DecodePageRoute>
-                )}
-              />
-              {DECODE_ROUTES.COURSEWARE.map((route) => (
                 <Route
-                  key={route}
-                  path={route}
+                  path={DECODE_ROUTES.LIVE}
                   element={(
                     <DecodePageRoute>
-                      <CoursewareContainer />
+                      <TabContainer tab="lti_live" fetch={fetchLiveTab} slice="courseHome">
+                        <LiveTab />
+                      </TabContainer>
                     </DecodePageRoute>
-                  )}
+                )}
                 />
-              ))}
-            </Routes>
-          </UserMessagesProvider>
-        </NoticesProvider>
-      </PathFixesProvider>
+                <Route
+                  path={DECODE_ROUTES.DATES}
+                  element={(
+                    <DecodePageRoute>
+                      <TabContainer tab="dates" fetch={fetchDatesTab} slice="courseHome">
+                        <DatesTab />
+                      </TabContainer>
+                    </DecodePageRoute>
+                )}
+                />
+                <Route
+                  path={DECODE_ROUTES.DISCUSSION}
+                  element={(
+                    <DecodePageRoute>
+                      <TabContainer tab="discussion" fetch={fetchDiscussionTab} slice="courseHome">
+                        <DiscussionTab />
+                      </TabContainer>
+                    </DecodePageRoute>
+                )}
+                />
+                {DECODE_ROUTES.PROGRESS.map((route) => (
+                  <Route
+                    key={route}
+                    path={route}
+                    element={(
+                      <DecodePageRoute>
+                        <TabContainer
+                          tab="progress"
+                          fetch={fetchProgressTab}
+                          slice="courseHome"
+                          isProgressTab
+                        >
+                          <ProgressTab />
+                        </TabContainer>
+                      </DecodePageRoute>
+                  )}
+                  />
+                ))}
+                <Route
+                  path={DECODE_ROUTES.COURSE_END}
+                  element={(
+                    <DecodePageRoute>
+                      <TabContainer tab="courseware" fetch={fetchCourse} slice="courseware">
+                        <CourseExit />
+                      </TabContainer>
+                    </DecodePageRoute>
+                )}
+                />
+                {DECODE_ROUTES.COURSEWARE.map((route) => (
+                  <Route
+                    key={route}
+                    path={route}
+                    element={(
+                      <DecodePageRoute>
+                        <CoursewareContainer />
+                      </DecodePageRoute>
+                  )}
+                  />
+                ))}
+              </Routes>
+            </UserMessagesProvider>
+          </NoticesProvider>
+        </PathFixesProvider>
+      </QueryClientProvider>
     </AppProvider>,
     document.getElementById('root'),
   );

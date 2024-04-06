@@ -13,6 +13,7 @@ import CatalogSuggestion from './CatalogSuggestion';
 import DashboardFootnote from './DashboardFootnote';
 import messages from './messages';
 import { logClick, logVisit } from './utils';
+import useGetConfig from '../../../hooks/useGetConfig';
 
 const CourseNonPassing = ({ intl }) => {
   const { courseId } = useSelector(state => state.courseware);
@@ -23,6 +24,10 @@ const CourseNonPassing = ({ intl }) => {
   } = useModel('courseHomeMeta', courseId);
   const { administrator } = getAuthenticatedUser();
 
+  const {
+    platformName,
+  } = useGetConfig();
+
   // Get progress tab link for 'view grades' button
   const progressTab = tabs.find(tab => tab.slug === 'progress');
   const progressLink = progressTab && progressTab.url;
@@ -32,7 +37,7 @@ const CourseNonPassing = ({ intl }) => {
   return (
     <>
       <Helmet>
-        <title>{`${intl.formatMessage(messages.endOfCourseTitle)} | ${title} | ${getConfig().SITE_NAME}`}</title>
+        <title>{`${intl.formatMessage(messages.endOfCourseTitle)} | ${title} | ${platformName || getConfig().siteName}`}</title>
       </Helmet>
       <div className="row w-100 mx-0 mb-4 px-5 py-4 border border-light justify-content-center">
         <div className="col-12 p-0 h2 text-center">
