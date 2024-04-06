@@ -12,6 +12,8 @@ import { Switch } from 'react-router-dom';
 
 import { messages as footerMessages } from '@edx/frontend-component-footer';
 import { messages as headerMessages } from '@edx/frontend-component-header';
+import { QueryClient, QueryClientProvider } from 'react-query';
+import REACT_QUERY_CONSTANTS from './constants/react-query-constants';
 import { fetchDiscussionTab, fetchLiveTab } from './course-home/data/thunks';
 import DiscussionTab from './course-home/discussion-tab/DiscussionTab';
 
@@ -38,67 +40,75 @@ import CourseAccessErrorPage from './generic/CourseAccessErrorPage';
 import DecodePageRoute from './decode-page-route';
 
 subscribe(APP_READY, () => {
+  const queryClient = new QueryClient({
+    defaultOptions: {
+      ...REACT_QUERY_CONSTANTS,
+    },
+  });
+
   ReactDOM.render(
     <AppProvider store={initializeStore()}>
-      <PathFixesProvider>
-        <NoticesProvider>
-          <UserMessagesProvider>
-            <Switch>
-              <PageRoute exact path="/goal-unsubscribe/:token" component={GoalUnsubscribe} />
-              <PageRoute path="/redirect" component={CoursewareRedirectLandingPage} />
-              <DecodePageRoute path="/course/:courseId/access-denied" component={CourseAccessErrorPage} />
-              <DecodePageRoute path="/course/:courseId/home">
-                <TabContainer tab="outline" fetch={fetchOutlineTab} slice="courseHome">
-                  <OutlineTab />
-                </TabContainer>
-              </DecodePageRoute>
-              <DecodePageRoute path="/course/:courseId/live">
-                <TabContainer tab="lti_live" fetch={fetchLiveTab} slice="courseHome">
-                  <LiveTab />
-                </TabContainer>
-              </DecodePageRoute>
-              <DecodePageRoute path="/course/:courseId/dates">
-                <TabContainer tab="dates" fetch={fetchDatesTab} slice="courseHome">
-                  <DatesTab />
-                </TabContainer>
-              </DecodePageRoute>
-              <DecodePageRoute path="/course/:courseId/discussion/:path*">
-                <TabContainer tab="discussion" fetch={fetchDiscussionTab} slice="courseHome">
-                  <DiscussionTab />
-                </TabContainer>
-              </DecodePageRoute>
-              <DecodePageRoute
-                path={[
-                  '/course/:courseId/progress/:targetUserId/',
-                  '/course/:courseId/progress',
-                ]}
-                render={({ match }) => (
-                  <TabContainer
-                    tab="progress"
-                    fetch={(courseId) => fetchProgressTab(courseId, match.params.targetUserId)}
-                    slice="courseHome"
-                  >
-                    <ProgressTab />
+      <QueryClientProvider client={queryClient}>
+        <PathFixesProvider>
+          <NoticesProvider>
+            <UserMessagesProvider>
+              <Switch>
+                <PageRoute exact path="/goal-unsubscribe/:token" component={GoalUnsubscribe} />
+                <PageRoute path="/redirect" component={CoursewareRedirectLandingPage} />
+                <DecodePageRoute path="/course/:courseId/access-denied" component={CourseAccessErrorPage} />
+                <DecodePageRoute path="/course/:courseId/home">
+                  <TabContainer tab="outline" fetch={fetchOutlineTab} slice="courseHome">
+                    <OutlineTab />
                   </TabContainer>
-                )}
-              />
-              <DecodePageRoute path="/course/:courseId/course-end">
-                <TabContainer tab="courseware" fetch={fetchCourse} slice="courseware">
-                  <CourseExit />
-                </TabContainer>
-              </DecodePageRoute>
-              <DecodePageRoute
-                path={[
-                  '/course/:courseId/:sequenceId/:unitId',
-                  '/course/:courseId/:sequenceId',
-                  '/course/:courseId',
-                ]}
-                component={CoursewareContainer}
-              />
-            </Switch>
-          </UserMessagesProvider>
-        </NoticesProvider>
-      </PathFixesProvider>
+                </DecodePageRoute>
+                <DecodePageRoute path="/course/:courseId/live">
+                  <TabContainer tab="lti_live" fetch={fetchLiveTab} slice="courseHome">
+                    <LiveTab />
+                  </TabContainer>
+                </DecodePageRoute>
+                <DecodePageRoute path="/course/:courseId/dates">
+                  <TabContainer tab="dates" fetch={fetchDatesTab} slice="courseHome">
+                    <DatesTab />
+                  </TabContainer>
+                </DecodePageRoute>
+                <DecodePageRoute path="/course/:courseId/discussion/:path*">
+                  <TabContainer tab="discussion" fetch={fetchDiscussionTab} slice="courseHome">
+                    <DiscussionTab />
+                  </TabContainer>
+                </DecodePageRoute>
+                <DecodePageRoute
+                  path={[
+                    '/course/:courseId/progress/:targetUserId/',
+                    '/course/:courseId/progress',
+                  ]}
+                  render={({ match }) => (
+                    <TabContainer
+                      tab="progress"
+                      fetch={(courseId) => fetchProgressTab(courseId, match.params.targetUserId)}
+                      slice="courseHome"
+                    >
+                      <ProgressTab />
+                    </TabContainer>
+                  )}
+                />
+                <DecodePageRoute path="/course/:courseId/course-end">
+                  <TabContainer tab="courseware" fetch={fetchCourse} slice="courseware">
+                    <CourseExit />
+                  </TabContainer>
+                </DecodePageRoute>
+                <DecodePageRoute
+                  path={[
+                    '/course/:courseId/:sequenceId/:unitId',
+                    '/course/:courseId/:sequenceId',
+                    '/course/:courseId',
+                  ]}
+                  component={CoursewareContainer}
+                />
+              </Switch>
+            </UserMessagesProvider>
+          </NoticesProvider>
+        </PathFixesProvider>
+      </QueryClientProvider>
     </AppProvider>,
     document.getElementById('root'),
   );

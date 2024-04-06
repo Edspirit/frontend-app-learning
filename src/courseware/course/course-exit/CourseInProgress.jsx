@@ -13,6 +13,7 @@ import CatalogSuggestion from './CatalogSuggestion';
 import DashboardFootnote from './DashboardFootnote';
 import messages from './messages';
 import { logClick, logVisit } from './utils';
+import useGetConfig from '../../../hooks/useGetConfig';
 
 const CourseInProgress = ({ intl }) => {
   const { courseId } = useSelector(state => state.courseware);
@@ -23,6 +24,10 @@ const CourseInProgress = ({ intl }) => {
   } = useModel('courseHomeMeta', courseId);
   const { administrator } = getAuthenticatedUser();
 
+  const {
+    platformName,
+  } = useGetConfig();
+
   // Get dates tab link for 'view course schedule' button
   const datesTab = tabs.find(tab => tab.slug === 'dates');
   const datesTabLink = datesTab && datesTab.url;
@@ -32,7 +37,7 @@ const CourseInProgress = ({ intl }) => {
   return (
     <>
       <Helmet>
-        <title>{`${intl.formatMessage(messages.endOfCourseTitle)} | ${title} | ${getConfig().SITE_NAME}`}</title>
+        <title>{`${intl.formatMessage(messages.endOfCourseTitle)} | ${title} | ${platformName || getConfig().siteName}`}</title>
       </Helmet>
       <div className="row w-100 mx-0 mb-4 px-5 py-4 border border-light justify-content-center">
         <div className="col-12 p-0 h2 text-center">
