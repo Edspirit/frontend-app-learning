@@ -18,6 +18,8 @@ import SidebarTriggers from './sidebar/SidebarTriggers';
 import { useModel } from '../../generic/model-store';
 import { getSessionStorage, setSessionStorage } from '../../data/sessionStorage';
 
+import useGetConfig from '../../hooks/useGetConfig';
+
 const Course = ({
   courseId,
   sequenceId,
@@ -43,6 +45,10 @@ const Course = ({
 
   // Below the tabs, above the breadcrumbs alerts (appearing in the order listed here)
   const dispatch = useDispatch();
+
+  const {
+    platformName,
+  } = useGetConfig();
 
   const [firstSectionCelebrationOpen, setFirstSectionCelebrationOpen] = useState(false);
   // If streakLengthToCelebrate is populated, that modal takes precedence. Wait til the next load to display
@@ -80,7 +86,7 @@ const Course = ({
   return (
     <SidebarProvider courseId={courseId} unitId={unitId}>
       <Helmet>
-        <title>{`${pageTitleBreadCrumbs.join(' | ')} | ${getConfig().SITE_NAME}`}</title>
+        <title>{`${pageTitleBreadCrumbs.join(' | ')} | ${platformName || getConfig().siteName}`}</title>
       </Helmet>
       <div className="position-relative d-flex align-items-start">
         <CourseBreadcrumbs
