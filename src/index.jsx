@@ -4,14 +4,12 @@ import 'regenerator-runtime/runtime';
 import {
   APP_INIT_ERROR, APP_READY, subscribe, initialize,
   mergeConfig,
-  getConfig,
 } from '@edx/frontend-platform';
 import { AppProvider, ErrorPage, PageWrap } from '@edx/frontend-platform/react';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Routes, Route } from 'react-router-dom';
 
-import { Helmet } from 'react-helmet';
 import { fetchDiscussionTab, fetchLiveTab } from './course-home/data/thunks';
 import DiscussionTab from './course-home/discussion-tab/DiscussionTab';
 
@@ -41,9 +39,6 @@ import { DECODE_ROUTES, ROUTES } from './constants';
 subscribe(APP_READY, () => {
   ReactDOM.render(
     <AppProvider store={initializeStore()}>
-      <Helmet>
-        <link rel="shortcut icon" href={getConfig().FAVICON_URL} type="image/x-icon" />
-      </Helmet>
       <PathFixesProvider>
         <NoticesProvider>
           <UserMessagesProvider>
