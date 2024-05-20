@@ -6,7 +6,7 @@ import { Navigate } from 'react-router-dom';
 
 import Footer from '@edx/frontend-component-footer';
 import { Toast } from '@edx/paragon';
-import { LearningHeader as Header } from '@edx/frontend-component-header';
+import Header from '@edx/frontend-component-header';
 import PageLoading from '../generic/PageLoading';
 import { getAccessDeniedRedirectUrl } from '../shared/access';
 import { useModel } from '../generic/model-store';
@@ -32,10 +32,7 @@ const TabPage = ({ intl, ...props }) => {
   const dispatch = useDispatch();
   const {
     courseAccess,
-    number,
-    org,
     start,
-    title,
   } = useModel('courseHomeMeta', courseId);
 
   if (courseStatus === 'denied') {
@@ -64,7 +61,7 @@ const TabPage = ({ intl, ...props }) => {
         </>
       )}
 
-      <Header courseOrg={org} courseNumber={number} courseTitle={title} />
+      <Header />
 
       {courseStatus === 'loading' && (
         <PageLoading srMessage={intl.formatMessage(messages.loading)} />
@@ -76,7 +73,7 @@ const TabPage = ({ intl, ...props }) => {
 
       {/* courseStatus 'failed' and any other unexpected course status. */}
       {(!['loading', 'loaded', 'denied'].includes(courseStatus)) && (
-        <p className="text-center py-5 mx-auto" style={{ maxWidth: '30em' }}>
+        <p className="text-center py-5 mx-auto d-flex flex-column flex-grow-1" style={{ maxWidth: '30em' }}>
           {intl.formatMessage(messages.failure)}
         </p>
       )}
