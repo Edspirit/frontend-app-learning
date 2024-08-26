@@ -10,7 +10,6 @@ import { useModel } from '../../generic/model-store';
 
 import messages from './messages';
 import useEnrollClickHandler from './clickHook';
-import useUserData from './useUserData';
 
 const EnrollmentAlert = ({ intl, payload }) => {
   const {
@@ -29,7 +28,6 @@ const EnrollmentAlert = ({ intl, payload }) => {
     org,
     intl.formatMessage(messages.success),
   );
-  const { userData } = useUserData();
 
   let text = intl.formatMessage(messages.alert);
   let type = 'warning';
@@ -48,19 +46,12 @@ const EnrollmentAlert = ({ intl, payload }) => {
     </Button>
   );
 
-  const alertContent = userData?.is_active
-    ? (
-      <>
-        {text}
-        {button}
-        {loading && <FontAwesomeIcon icon={faSpinner} spin />}
-      </>
-    )
-    : intl.formatMessage(messages.deActive);
   return (
     <Alert variant={type} icon={icon}>
       <div className="d-flex">
-        {alertContent}
+        {text}
+        {button}
+        {loading && <FontAwesomeIcon icon={faSpinner} spin />}
       </div>
     </Alert>
   );
