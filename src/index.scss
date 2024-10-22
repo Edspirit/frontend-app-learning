@@ -396,6 +396,10 @@
   box-shadow: 0 0.0625rem 0.125rem rgba(0, 0, 0, 0.2) !important;
 }
 
+[dir='rtl'] .rtl-transform-icon .pgn__icon {
+  transform: scaleX(-1);
+}
+
 // Import component-specific sass files
 @import 'courseware/course/celebration/CelebrationModal.scss';
 @import 'courseware/course/sidebar/sidebars/notifications/NotificationIcon.scss';

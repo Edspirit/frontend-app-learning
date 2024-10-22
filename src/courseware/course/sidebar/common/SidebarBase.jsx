@@ -47,7 +47,7 @@ const SidebarBase = ({
     >
       {shouldDisplayFullScreen ? (
         <div
-          className="pt-2 pb-2.5 border-bottom border-light-400 d-flex align-items-center ml-2"
+          className="pt-2 pb-2.5 border-bottom border-light-400 d-flex align-items-center ml-2 rtl-transform-icon"
           onClick={() => toggleSidebar(null)}
           onKeyDown={() => toggleSidebar(null)}
           role="button"
