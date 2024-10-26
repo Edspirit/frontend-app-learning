@@ -28,6 +28,9 @@ const SequenceNavigationDropdown = ({
         <Dropdown.Item
           as={UnitButton}
           className="w-100"
+          style={{
+            marginLeft: '-10px !important',
+          }}
           isActive={unitId === buttonUnitId}
           key={buttonUnitId}
           onClick={onNavigate}
