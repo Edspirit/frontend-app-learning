@@ -14,6 +14,7 @@ import useEnrollmentAlert from '../alerts/enrollment-alert';
 import useLogistrationAlert from '../alerts/logistration-alert';
 
 import ProductTours from '../product-tours/ProductTours';
+import useGetConfig from '../hooks/useGetConfig';
 
 const LoadedTabPage = ({
   activeTabSlug,
@@ -36,6 +37,10 @@ const LoadedTabPage = ({
   const logistrationAlert = useLogistrationAlert(courseId);
   const enrollmentAlert = useEnrollmentAlert(courseId);
 
+  const {
+    platformName,
+  } = useGetConfig();
+
   const activeTab = tabs.filter(tab => tab.slug === activeTabSlug)[0];
 
   const streakLengthToCelebrate = celebrations && celebrations.streakLengthToCelebrate;
@@ -51,7 +56,7 @@ const LoadedTabPage = ({
         org={org}
       />
       <Helmet>
-        <title>{`${activeTab ? `${activeTab.title} | ` : ''}${title} | ${getConfig().SITE_NAME}`}</title>
+        <title>{`${activeTab ? `${activeTab.title} | ` : ''}${title} | ${platformName || getConfig().siteName}`}</title>
       </Helmet>
       {originalUserIsStaff && (
         <InstructorToolbar
