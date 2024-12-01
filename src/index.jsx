@@ -182,6 +182,7 @@ initialize({
         PROCTORED_EXAM_RULES_URL: process.env.PROCTORED_EXAM_RULES_URL || null,
         CHAT_RESPONSE_URL: process.env.CHAT_RESPONSE_URL || null,
         PRIVACY_POLICY_URL: process.env.PRIVACY_POLICY_URL || null,
+        AC_INSTANCE_CONFIG_API_URL: process.env.AC_INSTANCE_CONFIG_API_URL,
       }, 'LearnerAppConfig');
     },
   },

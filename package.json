@@ -18,7 +18,8 @@
     "postinstall": "patch-package",
     "snapshot": "fedx-scripts jest --updateSnapshot",
     "start": "fedx-scripts webpack-dev-server --progress",
-    "test": "fedx-scripts jest --coverage --passWithNoTests"
+    "test": "fedx-scripts jest --coverage --passWithNoTests",
+    "dev": "PUBLIC_PATH=/learning/ MFE_CONFIG_API_URL='http://localhost:8000/api/mfe_config/v1' fedx-scripts webpack-dev-server --progress --host apps.local.edly.io"
   },
   "author": "edX",
   "license": "AGPL-3.0",
@@ -30,8 +31,9 @@
     "url": "https://github.com/openedx/frontend-app-learning/issues"
   },
   "dependencies": {
-    "@edx/brand": "npm:@openedx/brand-openedx@^1.2.2",
-    "@edx/frontend-component-header": "^5.0.2",
+    "@edx/brand": "https://github.com/Edspirit/brand-openedx#indigo-1.4.9",
+    "@edx/frontend-component-footer": "https://github.com/Edspirit/frontend-component-footer#v14.0.11",
+    "@edx/frontend-component-header": "https://github.com/Edspirit/frontend-component-header#v5.7.3",
     "@edx/frontend-lib-learning-assistant": "^2.0.0",
     "@edx/frontend-lib-special-exams": "^3.0.1",
     "@edx/frontend-platform": "^7.1.2",
