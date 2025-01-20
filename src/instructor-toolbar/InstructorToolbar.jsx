@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { getConfig } from '@edx/frontend-platform';
+import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
 
 import { ALERT_TYPES, AlertList } from '../generic/user-messages';
 import Alert from '../generic/user-messages/Alert';
 import MasqueradeWidget from './masquerade-widget';
 import { useAccessExpirationMasqueradeBanner } from '../alerts/access-expiration-alert';
 import { useCourseStartMasqueradeBanner } from '../alerts/course-start-alert';
+import messages from './messages';
 
 function getInsightsUrl(courseId) {
   const urlBase = getConfig().INSIGHTS_BASE_URL;
@@ -65,6 +67,10 @@ const InstructorToolbar = (props) => {
   const accessExpirationMasqueradeBanner = useAccessExpirationMasqueradeBanner(courseId, tab);
   const courseStartDateMasqueradeBanner = useCourseStartMasqueradeBanner(courseId, tab);
 
+  const viewCourseInText = props.intl.formatMessage(messages.viewCourseIn);
+  const studioText = props.intl.formatMessage(messages.studio);
+  const insightsText = props.intl.formatMessage(messages.insights);
+
   return (!didMount ? null : (
     <div data-testid="instructor-toolbar">
       <div className="bg-primary text-white">
@@ -75,17 +81,17 @@ const InstructorToolbar = (props) => {
           {(urlStudio || urlInsights) && (
             <>
               <hr className="border-light" />
-              <span className="mr-2 mt-1 col-form-label">View course in:</span>
+              <span className="mr-2 mt-1 col-form-label">{viewCourseInText}:</span>
             </>
           )}
           {urlStudio && (
             <span className="mx-1 my-1">
-              <a className="btn btn-inverse-outline-primary" href={urlStudio}>Studio</a>
+              <a className="btn btn-inverse-outline-primary" href={urlStudio}>{studioText}</a>
             </span>
           )}
           {urlInsights && (
             <span className="mx-1 my-1">
-              <a className="btn btn-inverse-outline-primary" href={urlInsights}>Insights</a>
+              <a className="btn btn-inverse-outline-primary" href={urlInsights}>{insightsText}</a>
             </span>
           )}
         </div>
@@ -115,6 +121,7 @@ InstructorToolbar.propTypes = {
   courseId: PropTypes.string,
   unitId: PropTypes.string,
   tab: PropTypes.string,
+  intl: intlShape.isRequired,
 };
 
 InstructorToolbar.defaultProps = {
@@ -123,4 +130,4 @@ InstructorToolbar.defaultProps = {
   tab: '',
 };
 
-export default InstructorToolbar;
+export default injectIntl(InstructorToolbar);

@@ -21,7 +21,7 @@ class MasqueradeWidget extends Component {
     this.courseId = props.courseId;
     this.state = {
       autoFocus: false,
-      masquerade: 'Staff',
+      masquerade: this.props.intl.formatMessage(messages.staff),
       options: [],
       shouldShowUserNameInput: false,
       masqueradeUsername: null,
@@ -71,7 +71,7 @@ class MasqueradeWidget extends Component {
   toggle(show) {
     this.setState(prevState => ({
       autoFocus: true,
-      masquerade: 'Specific Student...',
+      masquerade: this.props.intl.formatMessage(messages.specificStudent),
       shouldShowUserNameInput: show === undefined ? !prevState.shouldShowUserNameInput : show,
     }));
   }
@@ -80,6 +80,7 @@ class MasqueradeWidget extends Component {
     const data = postData || {};
     const active = data.active || {};
     const available = data.available || [];
+
     const options = available.map((group) => (
       <MasqueradeWidgetOption
         groupId={group.groupId}
@@ -93,17 +94,20 @@ class MasqueradeWidget extends Component {
         onSubmit={(payload) => this.onSubmit(payload)}
       />
     ));
+
     if (active.userName) {
       this.setState({
         autoFocus: false,
-        masquerade: 'Specific Student...',
+        masquerade: this.props.intl.formatMessage(messages.specificStudent),
         masqueradeUsername: active.userName,
         shouldShowUserNameInput: true,
       });
+    } else if (active.groupName === 'Audit') {
+      this.setState({ masquerade: this.props.intl.formatMessage(messages.audit) });
     } else if (active.groupName) {
       this.setState({ masquerade: active.groupName });
     } else if (active.role === 'student') {
-      this.setState({ masquerade: 'Learner' });
+      this.setState({ masquerade: this.props.intl.formatMessage(messages.learner) });
     }
     return options;
   }
@@ -117,10 +121,11 @@ class MasqueradeWidget extends Component {
       masqueradeUsername,
     } = this.state;
     const specificLearnerInputText = this.props.intl.formatMessage(messages.placeholder);
+    const viewCourseAsText = this.props.intl.formatMessage(messages.viewCourseAs);
     return (
       <div className="flex-grow-1">
         <div className="row">
-          <span className="col-auto col-form-label pl-3">View this course as:</span>
+          <span className="col-auto col-form-label pl-3">{viewCourseAsText}:</span>
           <Dropdown className="flex-shrink-1 mx-1">
             <Dropdown.Toggle id="masquerade-widget-toggle" variant="inverse-outline-primary">
               {masquerade}

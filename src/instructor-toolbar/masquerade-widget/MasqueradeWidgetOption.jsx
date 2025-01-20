@@ -1,8 +1,8 @@
-import React, {
-  Component,
-} from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
 import { Dropdown } from '@openedx/paragon';
+import messages from './messages';
 
 class MasqueradeWidgetOption extends Component {
   onClick(event) {
@@ -21,11 +21,13 @@ class MasqueradeWidgetOption extends Component {
       userPartitionId,
       userNameInputToggle,
     } = this.props;
-    const payload = {};
+
     if (userName || userName === '') {
       userNameInputToggle(true);
       return false;
     }
+
+    const payload = {};
     if (role) {
       payload.role = role;
     }
@@ -39,44 +41,72 @@ class MasqueradeWidgetOption extends Component {
     return true;
   }
 
+  getDisplayName() {
+    const { userName, role, groupName } = this.props;
+
+    // Handle backend-provided names
+    if (groupName === 'Staff') {
+      return this.props.intl.formatMessage(messages.staff);
+    }
+    if (groupName === 'Specific Student...') {
+      return this.props.intl.formatMessage(messages.specificStudent);
+    }
+    if (groupName === 'Audit') { // Simplified condition
+      return this.props.intl.formatMessage(messages.audit);
+    }
+
+    // Fallback cases
+    if (userName !== null) {
+      return this.props.intl.formatMessage(messages.specificStudent);
+    }
+    if (role === 'student') {
+      return this.props.intl.formatMessage(messages.learner);
+    }
+    if (role === 'staff') {
+      return this.props.intl.formatMessage(messages.staff);
+    }
+
+    return groupName;
+  }
+
   isSelected() {
-    /* eslint-disable arrow-body-style */
     const isEqual = [
       'groupId',
       'role',
       'userName',
       'userPartitionId',
-    ].reduce((accumulator, currentValue) => {
-      return accumulator && (
+    ].reduce((accumulator, currentValue) => (
+      accumulator && (
         this.props[currentValue] === this.props.selected[currentValue]
-      );
-    }, true);
+      )
+    ), true);
     return isEqual;
   }
 
   render() {
-    const {
-      groupName,
-    } = this.props;
+    const { groupName } = this.props;
     if (!groupName) {
       return null;
     }
+
     const selected = this.isSelected();
-    let className;
+    let className = '';
     if (selected) {
       className = 'active';
     }
+
     return (
       <Dropdown.Item
         className={className}
         href="#"
         onClick={(event) => this.onClick(event)}
       >
-        {groupName}
+        {this.getDisplayName()}
       </Dropdown.Item>
     );
   }
 }
+
 MasqueradeWidgetOption.propTypes = {
   groupId: PropTypes.number,
   groupName: PropTypes.string.isRequired,
@@ -92,7 +122,9 @@ MasqueradeWidgetOption.propTypes = {
   userName: PropTypes.string,
   userNameInputToggle: PropTypes.func.isRequired,
   userPartitionId: PropTypes.number,
+  intl: intlShape.isRequired,
 };
+
 MasqueradeWidgetOption.defaultProps = {
   groupId: null,
   role: null,
@@ -101,4 +133,4 @@ MasqueradeWidgetOption.defaultProps = {
   userPartitionId: null,
 };
 
-export default MasqueradeWidgetOption;
+export default injectIntl(MasqueradeWidgetOption);
